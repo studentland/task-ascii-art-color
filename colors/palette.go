@@ -96,6 +96,18 @@ func IndexFromColorName(s string) (int, error) {
 	return index, nil
 }
 
+func OpositeColorNameIndexFromColorName(s string) (int, error) {
+	i, err := IndexFromColorName(s)
+	if err != nil {
+		return i, err
+	}
+	oc, err := opositeColorNameFromIndex(i)
+	if err != nil {
+		return i, err
+	}
+	return IndexFromColorName(oc)
+}
+
 func foregroundColor(s string) (string, error) {
 	cp := map[string]string{
 		"grey":   "\033[30;1m",
@@ -133,4 +145,18 @@ func backgroundColor(s string) (string, error) {
 		return "", fmt.Errorf("invalid background color name: %s", s)
 	}
 	return colorCode, nil
+}
+
+const Reset = "\033[0m"
+
+var colorNames map[string]string = map[string]string{
+	"grey":   "\033[30;1m",
+	"red":    "\033[31;1m",
+	"green":  "\033[32;1m",
+	"yellow": "\033[33;1m",
+	"blue":   "\033[34;1m",
+	"purple": "\033[35;1m",
+	"cyan":   "\033[36;1m",
+	"white":  "\033[37;1m",
+	"orange": "\033[38;2;255;165;0m", // todo test later with 1m
 }

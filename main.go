@@ -1,27 +1,46 @@
 package main
 
 import (
-	"ascii-art/print"
+	"ascii-art/prepare"
 	"fmt"
 	"os"
 	"strings"
 )
 
-const USAGE = `Usage: go run . [printed text] [COLOR sequence/name] [banner name]\n\nEX: go run . "red blue" "111 6666"  "shadow"`
+const USAGE = `Usage: go run . [printed text] [color sequence/color name] [banner file name]\n\nEX: go run . "red blue" "111 6666"  "shadow"
+colors:
+0 -> grey, 1 -> red, 2 -> orange, 3 -> yellow, 4 -> green, 5 -> cyan, 6 -> blue, 7 -> purple, 8 -> white`
 
 var unittest = false
 
 func main() {
-
-	if len(os.Args) < 2 {
-		fmt.Println("Please enter some text")
+	var input, colorMask, bannerFileName string
+	var lines []string
+	lens := len(os.Args)
+	switch lens {
+	case 1:
+		fmt.Println(USAGE)
 		return
+	case 2:
+		input = os.Args[1]
+		colorMask = ""
+		bannerFileName = "standard.txt"
+	case 3:
+		input = os.Args[1]
+		colorMask = os.Args[2]
+		bannerFileName = "standard.txt"
+	case 4:
+		input = os.Args[1]
+		colorMask = os.Args[2]
+		bannerFileName = os.Args[3]
+	default:
+		input = strings.Join(os.Args[1:], " ")
+		colorMask = ""
+		bannerFileName = "standard.txt"
 	}
-	input := strings.Join(os.Args[1:], " ")
-	lines := readFileIntoSlice("standard.txt")
-	runes := []rune(input) // convert input string to runes slice
+	lines = readFileIntoSlice(bannerFileName)
 	splittwo := "\\n"
-	words := strings.Split(string(runes), splittwo)
+	words := strings.Split(input, splittwo)
 
 	if input == "" {
 		return
@@ -30,9 +49,15 @@ func main() {
 		fmt.Println()
 		return
 	}
+	// todo: add color mask check
 
-	fmt.Println(print.PrepareAland(words, lines))
+	switch lens {
+	case 3, 4:
+		fmt.Println(prepare.Color(words, lines, colorMask))
+	default:
+		fmt.Println(prepare.Aland(words, lines))
 
+	}
 	// for _, word := range words { // nested loop to print line by line depending on input.
 	// 	if word == "" { // the new line "\\n" was at the end of "words" slice, and Split create the "" word
 	// 		fmt.Println()

@@ -1,4 +1,4 @@
-package print
+package prepare
 
 import (
 	"ascii-art/colors"
@@ -7,27 +7,56 @@ import (
 	"strings"
 )
 
-func PrepareAland(inputSlice []string, bannerRawLines []string) string {
+func Color(words []string, lines []string, colorMask string) string {
+	var output string
+	for _, word := range words { // nested loop to print line by line depending on input.
+		if word == "" { // the new line "\\n" was at the end of "words" slice, and Split create the "" word
+			output += "\n"
+		} else { // usual case letter print
+			var fresh = true // to print the message about unsupported symbols only once
+			// vertical step to print horizontal sequences of letter ascii art
+			for h := 1; h < 9; h++ { // from one to ignore the empty new line from standart.txt
+				for _, l := range word {
+					ind := (int(l)-32)*9 + h // potential index (the height from up to bottom) in "lines" for required letter line(because art letter is multilined)
+					if ind < len(lines) {    // check the index is inside available ascii art symbols ... f.e. standart.txt
+						output += lines[ind] // print the line from high "h" for the word letter "l"
+					} else {
+						if fresh {
+							fmt.Println("unsupported symbols was dropped")
+							fresh = false
+						}
+					}
+				}
+				output += "\n"
+			}
+		}
+	}
+	return output
+}
+
+func Aland(inputSlice []string, bannerRawLines []string) string {
 	var bannerLines [][]rune
 	for _, line := range bannerRawLines {
 		bannerLines = append(bannerLines, []rune(line))
 	}
-	fmt.Println((bannerLines))
 	var result string
-	// if checker.AllEmpty(inputSlice) {
-	// 	for l := 1; l < len(inputSlice); l++ {
-	// 		result += "\n"
-	// 	}
-	// 	return result
-	// }
+	var fresh = true // to print the message about unsupported symbols only once
 	for i := 0; i < len(inputSlice); i++ {
 		if len(inputSlice[i]) == 0 {
 			result += "\n"
 		} else {
 			for j := 1; j < 9; j++ {
 				for k := 0; k < len(inputSlice[i]); k++ {
-
-					result += string(bannerLines[(int(inputSlice[i][k]-32)*9)+j])
+					ind := (int(inputSlice[i][k]-32) * 9) + j
+					if ind < len(bannerLines) {
+						result += string(bannerLines[ind])
+					} else {
+						result += "?"
+						if fresh {
+							fmt.Println("unsupported symbols was dropped")
+							fresh = false
+						}
+					}
 				}
 				result += "\n"
 			}
@@ -62,9 +91,9 @@ func colorResult(s string) (news string) {
 
 	for y := 0; y < dy; y++ {
 		for x := 0; x < dx; x++ {
-			cIndex, _ := colors.IndexFromColorName(ci[y][x])
+			cIndex, _ := colors.OpositeColorNameIndexFromColorName(ci[y][x])
 			color := colors.IColor(cIndex)
-			news += color.Foreground + color.Background + si[y][x] + "\033[0m"
+			news += color.Foreground + color.Background + si[y][x] + colors.Reset
 		}
 		news += "\n"
 	}
