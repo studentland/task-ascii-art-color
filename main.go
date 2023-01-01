@@ -1,15 +1,17 @@
 package main
 
 import (
+	"ascii-art/colors"
 	"ascii-art/prepare"
+	"ascii-art/utils"
 	"fmt"
 	"os"
 	"strings"
 )
 
-const USAGE = `Usage: go run . [printed text] [color sequence/color name] [banner file name]\n\nEX: go run . "red blue" "111 6666"  "shadow"
+const USAGE = `Usage: go run . [printed text] [color sequence/color name] [banner file name]\n\nEX: go run . "red blue" "11106666" "shadow.txt"
 colors:
-0 -> grey, 1 -> red, 2 -> orange, 3 -> yellow, 4 -> green, 5 -> cyan, 6 -> blue, 7 -> purple, 8 -> white`
+0 -> default, 1 -> red, 2 -> orange, 3 -> yellow, 4 -> green, 5 -> cyan, 6 -> blue, 7 -> purple, 8 -> white, 9 -> grey`
 
 var unittest = false
 
@@ -50,6 +52,12 @@ func main() {
 		return
 	}
 	// todo: add color mask check
+	if !utils.OnlyDigits(colorMask) {
+		if _, ok := colors.ColorNames[colorMask]; !ok {
+			fmt.Println(USAGE)
+			return
+		}
+	}
 
 	switch lens {
 	case 3, 4:
@@ -78,11 +86,11 @@ func main() {
 
 func readFileIntoSlice(name string) []string {
 	file, err := os.ReadFile(name)
-
 	if err != nil {
 		fmt.Printf("Error message: %s:\n", err)
 		os.Exit(2)
 	}
+	file = []byte(strings.ReplaceAll(string(file), "\r", ""))
 	lines := strings.Split(string(file), "\n")
 	return lines
 }

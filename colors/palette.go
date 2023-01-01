@@ -18,9 +18,9 @@ type Color struct {
 //		Error        error
 //	}
 //
-// Indexes: 0: grey 1: red 2: orange 3: yellow 4: green 5: cyan 6: blue 7: purple 8: white
+// Indexes: 0: grey 1: red 2: orange 3: yellow 4: green 5: cyan 6: blue 7: purple 8: white 9: nothing
 func IColor(i int) Color {
-	foregroundColorName, err := colorNameFromIndex(i)
+	foregroundColorName, err := ColorNameFromIndex(i)
 	if err != nil {
 		return Color{Error: err}
 	}
@@ -41,15 +41,16 @@ func IColor(i int) Color {
 
 func opositeColorNameFromIndex(i int) (string, error) {
 	ocn := map[int]string{
-		0: "white",
+		0: "default",
 		1: "green",
 		2: "blue",
 		3: "purple",
 		4: "red",
-		5: "orange",
+		5: "cyan", // cyan to cyan, no oposite color, but terminal anyways ignores foreground color
 		6: "orange",
 		7: "yellow",
 		8: "grey",
+		9: "white",
 	}
 	colorName, ok := ocn[i]
 	if !ok {
@@ -58,9 +59,9 @@ func opositeColorNameFromIndex(i int) (string, error) {
 	return colorName, nil
 }
 
-func colorNameFromIndex(i int) (string, error) {
+func ColorNameFromIndex(i int) (string, error) {
 	cn := map[int]string{
-		0: "grey",
+		0: "default",
 		1: "red",
 		2: "orange",
 		3: "yellow",
@@ -69,6 +70,7 @@ func colorNameFromIndex(i int) (string, error) {
 		6: "blue",
 		7: "purple",
 		8: "white",
+		9: "grey",
 	}
 	colorName, ok := cn[i]
 	if !ok {
@@ -79,15 +81,16 @@ func colorNameFromIndex(i int) (string, error) {
 
 func IndexFromColorName(s string) (int, error) {
 	cn := map[string]int{
-		"grey":   0,
-		"red":    1,
-		"orange": 2,
-		"yellow": 3,
-		"green":  4,
-		"cyan":   5,
-		"blue":   6,
-		"purple": 7,
-		"white":  8,
+		"default": 0,
+		"red":     1,
+		"orange":  2,
+		"yellow":  3,
+		"green":   4,
+		"cyan":    5,
+		"blue":    6,
+		"purple":  7,
+		"white":   8,
+		"grey":    9,
 	}
 	index, ok := cn[s]
 	if !ok {
@@ -110,15 +113,16 @@ func OpositeColorNameIndexFromColorName(s string) (int, error) {
 
 func foregroundColor(s string) (string, error) {
 	cp := map[string]string{
-		"grey":   "\033[30;1m",
-		"red":    "\033[31;1m",
-		"green":  "\033[32;1m",
-		"yellow": "\033[33;1m",
-		"blue":   "\033[34;1m",
-		"purple": "\033[35;1m",
-		"cyan":   "\033[36;1m",
-		"white":  "\033[37;1m",
-		"orange": "\033[38;2;255;165;0m", // todo test later with 1m
+		"default": "",
+		"red":     "\033[31;1m",
+		"orange":  "\033[38;2;255;165;0m", // todo test later with 1m
+		"yellow":  "\033[33;1m",
+		"green":   "\033[32;1m",
+		"cyan":    "\033[36;1m",
+		"blue":    "\033[34;1m",
+		"purple":  "\033[35;1m",
+		"white":   "\033[37;1m",
+		"grey":    "\033[30;1m",
 	}
 	colorCode, ok := cp[s]
 	if !ok {
@@ -130,15 +134,16 @@ func foregroundColor(s string) (string, error) {
 // Returns string if it is one of the valid options.
 func backgroundColor(s string) (string, error) {
 	cp := map[string]string{
-		"grey":   "\033[40;1m",
-		"red":    "\033[41;1m",
-		"orange": "\033[48;2;255;165;0m", // todo test later with 1m
-		"yellow": "\033[43;1m",
-		"green":  "\033[42;1m",
-		"cyan":   "\033[46;1m",
-		"blue":   "\033[44;1m",
-		"purple": "\033[45;1m",
-		"white":  "\033[47;1m",
+		"default": "",
+		"red":     "\033[41;1m",
+		"orange":  "\033[48;2;255;165;0m", // todo test later with 1m
+		"yellow":  "\033[43;1m",
+		"green":   "\033[42;1m",
+		"cyan":    "\033[46;1m",
+		"blue":    "\033[44;1m",
+		"purple":  "\033[45;1m",
+		"white":   "\033[47;1m",
+		"grey":    "\033[40;1m",
 	}
 	colorCode, ok := cp[s]
 	if !ok {
@@ -149,14 +154,15 @@ func backgroundColor(s string) (string, error) {
 
 const Reset = "\033[0m"
 
-var colorNames map[string]string = map[string]string{
-	"grey":   "\033[30;1m",
+var ColorNames map[string]string = map[string]string{
 	"red":    "\033[31;1m",
-	"green":  "\033[32;1m",
+	"orange": "\033[38;2;255;165;0m", // todo test later with 1m
 	"yellow": "\033[33;1m",
+	"green":  "\033[32;1m",
+	"cyan":   "\033[36;1m",
 	"blue":   "\033[34;1m",
 	"purple": "\033[35;1m",
-	"cyan":   "\033[36;1m",
 	"white":  "\033[37;1m",
-	"orange": "\033[38;2;255;165;0m", // todo test later with 1m
+	"grey":   "\033[30;1m",
+	"reset":  "\033[0m",
 }
