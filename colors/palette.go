@@ -18,7 +18,7 @@ type Color struct {
 //		Error        error
 //	}
 //
-// Indexes: 0: grey 1: red 2: orange 3: yellow 4: green 5: cyan 6: blue 7: purple 8: white 9: nothing
+// Indexes: 0: default 1: red 2: orange 3: yellow 4: green 5: cyan 6: blue 7: purple 8: white 9: dark
 func IColor(i int) Color {
 	foregroundColorName, err := ColorNameFromIndex(i)
 	if err != nil {
@@ -49,7 +49,7 @@ func opositeColorNameFromIndex(i int) (string, error) {
 		5: "cyan", // cyan to cyan, no oposite color, but terminal anyways ignores foreground color if background color was set
 		6: "orange",
 		7: "yellow",
-		8: "grey",
+		8: "dark",
 		9: "white",
 	}
 	colorName, ok := ocn[i]
@@ -70,7 +70,7 @@ func ColorNameFromIndex(i int) (string, error) {
 		6: "blue",
 		7: "purple",
 		8: "white",
-		9: "grey",
+		9: "dark",
 	}
 	colorName, ok := cn[i]
 	if !ok {
@@ -90,7 +90,7 @@ func IndexFromColorName(s string) (int, error) {
 		"blue":    6,
 		"purple":  7,
 		"white":   8,
-		"grey":    9,
+		"dark":    9,
 	}
 	index, ok := cn[s]
 	if !ok {
@@ -122,7 +122,7 @@ func foregroundColor(s string) (string, error) {
 		"blue":    "\033[34;1m",
 		"purple":  "\033[35;1m",
 		"white":   "\033[37;1m",
-		"grey":    "\033[30;1m",
+		"dark":    "\033[30;1m",
 	}
 	colorCode, ok := cp[s]
 	if !ok {
@@ -143,7 +143,7 @@ func backgroundColor(s string) (string, error) {
 		"blue":    "\033[44;1m",
 		"purple":  "\033[45;1m",
 		"white":   "\033[47;1m",
-		"grey":    "\033[40;1m",
+		"dark":    "\033[40;1m",
 	}
 	colorCode, ok := cp[s]
 	if !ok {
@@ -163,6 +163,6 @@ var ColorNames map[string]string = map[string]string{
 	"blue":   "\033[34;1m",
 	"purple": "\033[35;1m",
 	"white":  "\033[37;1m",
-	"grey":   "\033[30;1m",
+	"dark":   "\033[30;1m",
 	"reset":  "\033[0m",
 }
