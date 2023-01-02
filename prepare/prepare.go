@@ -158,7 +158,7 @@ func colorIndex(cs, dx, dy int) (ci [][]string) {
 		ci[y] = make([]string, dx)
 	}
 
-	// color map for zones
+	// color map for zones of the flag of Aland Islands (Finland)
 	cmap := [dymin][dxmin]string{
 		{"blue", "blue", "blue", "blue", "yellow", "yellow", "red", "red", "red", "red", "yellow", "yellow", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue"},
 		{"blue", "blue", "blue", "blue", "yellow", "yellow", "red", "red", "red", "red", "yellow", "yellow", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue"},

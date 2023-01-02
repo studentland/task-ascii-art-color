@@ -66,22 +66,6 @@ func main() {
 		fmt.Println(prepare.Aland(words, lines))
 
 	}
-	// for _, word := range words { // nested loop to print line by line depending on input.
-	// 	if word == "" { // the new line "\\n" was at the end of "words" slice, and Split create the "" word
-	// 		fmt.Println()
-	// 	} else { // usual case letter print
-	// 		// vertical step to print horizontal sequences of letter ascii art
-	// 		for h := 1; h < 9; h++ { // from one to ignore the empty new line from standart.txt
-	// 			for _, l := range word {
-	// 				ind := (int(l)-32)*9 + h // potential index (the height from up to bottom) in "lines" for required letter line(because art letter is multilined)
-	// 				if ind < len(lines) {    // check the index is inside available ascii art symbols ... f.e. standart.txt
-	// 					fmt.Print(lines[ind]) // print the line from high "h" for the word letter "l"
-	// 				}
-	// 			}
-	// 			fmt.Println()
-	// 		}
-	// 	}
-	// }
 }
 
 func readFileIntoSlice(name string) []string {

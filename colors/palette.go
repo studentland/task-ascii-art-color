@@ -46,7 +46,7 @@ func opositeColorNameFromIndex(i int) (string, error) {
 		2: "blue",
 		3: "purple",
 		4: "red",
-		5: "cyan", // cyan to cyan, no oposite color, but terminal anyways ignores foreground color
+		5: "cyan", // cyan to cyan, no oposite color, but terminal anyways ignores foreground color if background color was set
 		6: "orange",
 		7: "yellow",
 		8: "grey",
