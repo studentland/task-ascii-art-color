@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ascii-art/colors"
-	"ascii-art/prepare"
-	"ascii-art/utils"
+	"ascii-art-color/colors"
+	"ascii-art-color/prepare"
+	"ascii-art-color/utils"
 	"fmt"
 	"os"
 	"strings"

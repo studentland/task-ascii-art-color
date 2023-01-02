@@ -1,7 +1,7 @@
 package prepare
 
 import (
-	"ascii-art/colors"
+	"ascii-art-color/colors"
 	"fmt"
 	"math"
 	"strconv"
