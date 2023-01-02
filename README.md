@@ -1,6 +1,11 @@
 # ascii-art-color
 Colorized ASCII art generator. Background will be colored according incoming parameters.  
 
+## Can not be used as task for curicculum, because not satisfying the requirements.
+Created just for pleasure. As playing with available ways to colorize text in terminal.
+
+![example.png][def]
+
 To run the programm:  
 
 - install `go` environment  
@@ -15,14 +20,16 @@ To run the programm:
 
 Usage: `go run . [text] ?[colormask sequence or one color name] ?[font file name]`
 
-Available colors for background colormask sequence:
-- default 0
-- red 1
-- orange 2
-- yellow 3
-- green 4
-- cyan 5
-- blue 6
-- purple 7
-- white 8
-- dark 9
+Available colors -> color indices for background colormask sequence:
+- default -> 0
+- red -> 1
+- orange -> 2
+- yellow -> 3
+- green -> 4
+- cyan -> 5
+- blue -> 6
+- purple -> 7
+- white -> 8
+- dark -> 9
+
+[def]: example.png
