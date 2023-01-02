@@ -124,6 +124,7 @@ func colorResult(s string) (news string) {
 
 // symbolIndex calculates symbol for every cell of colored area
 // [vertical row][horizontal column] symbol string
+// if the text is shorter than the area, it will be filled with spaces
 func symbolIndex(spl []string, dx, dy int) (si [][]string) {
 	si = make([][]string, dy)
 	for y := range si {
