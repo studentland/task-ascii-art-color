@@ -11,7 +11,7 @@ import (
 
 const USAGE = `Usage: go run . [printed text] [color sequence/color name] [banner file name]\n\nEX: go run . "red blue" "11106666" "shadow.txt"
 colors:
-0 -> default, 1 -> red, 2 -> orange, 3 -> yellow, 4 -> green, 5 -> cyan, 6 -> blue, 7 -> purple, 8 -> white, 9 -> grey`
+0 -> default, 1 -> red, 2 -> orange, 3 -> yellow, 4 -> green, 5 -> cyan, 6 -> blue, 7 -> purple, 8 -> white, 9 -> dark`
 
 var unittest = false
 
@@ -30,7 +30,12 @@ func main() {
 	case 3:
 		input = os.Args[1]
 		colorMask = os.Args[2]
-		bannerFileName = "standard.txt"
+		if strings.HasSuffix(colorMask, ".txt") {
+			bannerFileName = colorMask
+			colorMask = ""
+		} else {
+			bannerFileName = "standard.txt"
+		}
 	case 4:
 		input = os.Args[1]
 		colorMask = os.Args[2]
@@ -60,7 +65,13 @@ func main() {
 	}
 
 	switch lens {
-	case 3, 4:
+	case 3:
+		if colorMask == "" {
+			fmt.Println(prepare.Aland(words, lines))
+		} else {
+			fmt.Println(prepare.Color(words, lines, colorMask))
+		}
+	case 4:
 		fmt.Println(prepare.Color(words, lines, colorMask))
 	default:
 		fmt.Println(prepare.Aland(words, lines))

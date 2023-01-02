@@ -9,9 +9,14 @@ import (
 )
 
 func Color(words []string, lines []string, colorMask string) string {
-	color, ok := colors.ColorNames[colorMask]
-	if ok { // if colorMask is a color name
-		return color + Aland(words, lines) + colors.ColorNames["reset"]
+	_, ok := colors.ColorNames[colorMask]
+	if ok { // if colorMask is a color name, convert it to color indices sequence
+		colorIndices := []string{}
+		ci, _ := colors.IndexFromColorName(colorMask)
+		for range strings.Join(words, "") {
+			colorIndices = append(colorIndices, strconv.Itoa(ci)) // append white color to the end of colorMask if it's length is less than the length of input
+		}
+		return Color(words, lines, strings.Join(colorIndices, ""))
 	} else { // if colorMask is a color indices sequence
 		var output string
 		colorIndices := strings.Split(colorMask, "")
