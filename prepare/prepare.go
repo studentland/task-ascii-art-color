@@ -15,11 +15,9 @@ func Color(words []string, lines []string, colorMask string) string {
 	} else { // if colorMask is a color indices sequence
 		var output string
 		colorIndices := strings.Split(colorMask, "")
-		fmt.Println()
 		for len(colorIndices) < len(strings.Join(words, "")) {
 			colorIndices = append(colorIndices, "0") // append white color to the end of colorMask if it's length is less than the length of input
 		}
-		fmt.Println("colorIndices: ", colorIndices)
 		var colorIndex int           // index of the current color in colorMask
 		for _, word := range words { // nested loop to print line by line depending on input.
 			if word == "" { // the new line "\\n" was at the end of "words" slice, and Split create the "" word
@@ -31,7 +29,6 @@ func Color(words []string, lines []string, colorMask string) string {
 					for _, l := range word {
 						ind := (int(l)-32)*9 + h // potential index (the height from up to bottom) in "lines" for required letter line(because art letter is multilined)
 						if ind < len(lines) {    // check the index is inside available ascii art symbols ... f.e. standart.txt
-							// cIndex, _ := colors.OpositeColorNameIndexFromColorName(colors.)
 							ci, _ := strconv.Atoi(colorIndices[colorIndex])
 							name, _ := colors.ColorNameFromIndex(ci)
 							oi, _ := colors.OpositeColorNameIndexFromColorName(name)
@@ -40,7 +37,7 @@ func Color(words []string, lines []string, colorMask string) string {
 							colorIndex++
 						} else {
 							if fresh {
-								fmt.Println("unsupported symbols was dropped")
+								fmt.Println("unsupported symbols were dropped")
 								fresh = false
 							}
 						}
@@ -75,7 +72,7 @@ func Aland(inputSlice []string, bannerRawLines []string) string {
 					} else {
 						result += "?"
 						if fresh {
-							fmt.Println("unsupported symbols was dropped")
+							fmt.Println("unsupported symbols were dropped")
 							fresh = false
 						}
 					}
